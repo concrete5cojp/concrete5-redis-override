@@ -11,7 +11,7 @@
 
 namespace Application\Redis\Driver;
 
-use Stash\AbstractDriver;
+use Stash\Driver\AbstractDriver;
 
 
 class Redis extends AbstractDriver
@@ -109,12 +109,12 @@ class Redis extends AbstractDriver
         if (count($servers) == 1) {
             $server = $servers[0];
             $redis = new \Redis();
-            if (!empty($options['prefix'])) $redis->_prefix($options['prefix']);
+
             if (isset($server['socket']) && $server['socket']) {
                 $redis->connect($server['socket']);
             } else {
                 $port = isset($server['port']) ? $server['port'] : 6379;
-                $ttl = isset($server['ttl']) ? $server['ttl'] : 0.1;
+                $ttl = isset($server['ttl']) ? $server['ttl'] : 0.5;
                 $redis->connect($server['server'], $port, $ttl);
             }
 
@@ -122,7 +122,7 @@ class Redis extends AbstractDriver
             if (isset($options['password'])) {
                 $redis->auth($options['password']);
             }
-
+            if (!empty($options['prefix'])) $redis->_prefix($options['prefix']);
             $this->redis = $redis;
         } else {
             $redisArrayOptions = array();

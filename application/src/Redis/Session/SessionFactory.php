@@ -104,7 +104,7 @@ class SessionFactory implements SessionFactoryInterface
                     $redis->connect($server['socket']);
                 } else {
                     $port = isset($server['port']) ? $server['port'] : 6379;
-                    $ttl = isset($server['ttl']) ? $server['ttl'] : 0.1;
+                    $ttl = isset($server['ttl']) ? $server['ttl'] : 0.5;
                     $redis->connect($server['server'], $port, $ttl);
                 }
 
@@ -143,7 +143,7 @@ class SessionFactory implements SessionFactoryInterface
                         }
                     }
                 } else {
-                    $servers = array(array('server' => '127.0.0.1', 'port' => '6379', 'ttl' => 0.1));
+                    $servers = array(array('server' => '127.0.0.1', 'port' => '6379', 'ttl' => 0.5));
                 }
 
                     $serverArray = array();

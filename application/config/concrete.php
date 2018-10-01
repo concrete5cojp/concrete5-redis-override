@@ -1,20 +1,21 @@
+<?php
 $redisSettings = [
             'servers' => [
                 [
                     'server' => '<redisAdress>',
-                    'port' => 6379
+                    'port' => 6379,
+                    'ttl'=> 0.5 //Time for connection to server to timeout
                 ]
             ],
-            'session_prefix' => 'c5session',
-            'prefix'=>'c5application'
+            'session_prefix' => md5(DIR_APPLICATION),
+            'prefix'=>md5(DIR_BASE)
         ];
 $redisDriver = [
     'core_filesystem'=>[
         'class' => \Application\Redis\Driver\Redis::class,
         'options' => $redisSettings
         ]
-    ]
-];
+    ];
 
 
 
@@ -34,8 +35,7 @@ return ['cache' => [
             'object' => [
                 'drivers' => $redisDriver
             ],
-        ]
-    ],
+        ],
     'session' => [
         'handler'=> 'redis',
         'redis' =>$redisSettings
