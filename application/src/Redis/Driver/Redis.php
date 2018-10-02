@@ -122,7 +122,7 @@ class Redis extends AbstractDriver
             if (isset($options['password'])) {
                 $redis->auth($options['password']);
             }
-            if (!empty($options['prefix'])) $redis->_prefix($options['prefix']);
+            if (!empty($options['prefix'])) $redis->_prefix($options['prefix']. ":");
             $this->redis = $redis;
         } else {
             $redisArrayOptions = array();
@@ -131,7 +131,7 @@ class Redis extends AbstractDriver
                     $redisArrayOptions[$optionName] = $options[$optionName];
                 }
             }
-            if (!empty($options['prefix'])) $redisArrayOptions[\Redis::OPT_PREFIX] = $options['prefix'];
+            if (!empty($options['prefix'])) $redisArrayOptions[\Redis::OPT_PREFIX] = $options['prefix'] . ":";
 
 
             $serverArray = array();
