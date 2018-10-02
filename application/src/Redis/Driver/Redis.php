@@ -99,7 +99,7 @@ class Redis extends AbstractDriver
                 }
             }
         } else {
-            $servers = array(array('server' => '127.0.0.1', 'port' => '6379', 'ttl' => 0.1));
+            $servers = array(array('server' => '127.0.0.1', 'port' => '6379', 'ttl' => 0.5));
         }
 
         // this will have to be revisited to support multiple servers, using
