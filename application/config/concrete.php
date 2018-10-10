@@ -1,43 +1,66 @@
 <?php
-$redisSettings = [
+use Application\Redis\Driver\Redis;
+
+$redisDriver = [
+    'core_filesystem' => [
+        'class' => Redis::class,
+        'options' => [
             'servers' => [
                 [
-                    'server' => '<redisAdress>',
+                    'server' => '<redis_server>',
                     'port' => 6379,
-                    'ttl'=> 0.5 //Time for connection to server to timeout
-                ]
+                    'ttl' => 30 //Connection Timeout - not TTL for objects
+                ],
             ],
-            'session_prefix' => md5(DIR_APPLICATION),
-            'prefix'=>md5(DIR_BASE)
-        ];
-$redisDriver = [
-    'core_filesystem'=>[
-        'class' => \Application\Redis\Driver\Redis::class,
-        'options' => $redisSettings
-        ]
-    ];
+            'prefix'=>'c5_cache'
+        ],
+    ],
+];
 
-
-
-return ['cache' => [
+$cache = [];
+$session = [];
+if (Redis::isAvailable()) {
+    $cache = [
         'page' => [
             'adapter' => 'redis',
-            'redis' =>$redisSettings
-            ]
+            'redis' => [
+                'servers' => [
+                    [
+                        'server' => '<redis_server>',
+                        'port' => 6379,
+                        'ttl' => 30 //Connection Timeout - not TTL for objects
+                    ],
+                ],
+                'prefix'=>'c5_cache'
+            ],
         ],
         'levels' => [
             'overrides' => [
-                'drivers' => $redisDriver
+                'drivers' => $redisDriver,
             ],
             'expensive' => [
-                'drivers' => $redisDriver
+                'drivers' => $redisDriver,
             ],
             'object' => [
-                'drivers' => $redisDriver
+                'drivers' => $redisDriver,
             ],
         ],
-    'session' => [
-        'handler'=> 'redis',
-        'redis' =>$redisSettings
-    ],
+    ];
+    $session = [
+        'handler' => 'redis',
+        'redis' => [
+            'servers' => [
+                [
+                    'server' => '<redis_server>',
+                    'port' => 6379,
+                    'ttl' => 30 //Connection Timeout - not TTL for objects
+                ],
+            ],
+            'prefix' => 'c5_session',
+        ],
+    ];
+}
+return [
+    'cache' => $cache,
+    'session' => $session
 ];
