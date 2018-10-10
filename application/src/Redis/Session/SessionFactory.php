@@ -1,6 +1,7 @@
 <?php
 namespace Application\Redis\Session;
 
+use Application\Redis\Driver\Redis;
 use Concrete\Core\Application\Application;
 use Concrete\Core\Http\Request;
 use Concrete\Core\Session\SessionFactoryInterface;
@@ -88,77 +89,15 @@ class SessionFactory implements SessionFactoryInterface
     {
         if ($config->get('concrete.session.handler') == 'redis' && class_exists('Redis')) {
             $options = $config->get('concrete.session.redis');
-            $servers = [];
-            if (!empty($options['servers'])) $servers = $options['servers'];
-
-            $rOptions = [\Redis::OPT_PREFIX => $options['session_prefix']];
-            if (is_array($servers) && count($servers) == 1 ) {
-
-                $server = $servers[0];
-                $redis = new \Redis();
-                if (isset($options['session_prefix'])) {
-                    $redis->_prefix($options['session_prefix']);
-                }
-
-                if (isset($server['socket']) && $server['socket']) {
-                    $redis->connect($server['socket']);
-                } else {
-                    $port = isset($server['port']) ? $server['port'] : 6379;
-                    $ttl = isset($server['ttl']) ? $server['ttl'] : 0.5;
-                    $redis->connect($server['server'], $port, $ttl);
-                }
-
-                // auth - just password
-                if (isset($server['password'])) {
-                    $redis->auth($server['password']);
-                }
+            if (isset($options['prefix'])) {
+                $config = ['prefix'=> $options['prefix']];
+                unset($config['prefix']);
             } else {
-                if (!empty($servers) && is_array($servers)) {
-                    foreach ($servers as $server) {
-                        $ttl = '.1';
-                        if (isset($server['ttl'])) {
-                            $ttl = $server['ttl'];
-                        } elseif (isset($server[2])) {
-                            $ttl = $server[2];
-                        }
+                $config = [];
+            }
+            $redis = new Redis($options);
 
-                        if (isset($server['socket'])) {
-                            $servers[] = array('socket' => $server['socket'], 'ttl' => $ttl);
-                        } else {
-                            $host = '127.0.0.1';
-                            if (isset($server['server'])) {
-                                $host = $server['server'];
-                            } elseif (isset($server[0])) {
-                                $host = $server[0];
-                            }
-
-                            $port = '6379';
-                            if (isset($server['port'])) {
-                                $port = $server['port'];
-                            } elseif (isset($server[1])) {
-                                $port = $server[1];
-                            }
-
-                            $servers[] = array('server' => $host, 'port' => $port, 'ttl' => $ttl);
-                        }
-                    }
-                } else {
-                    $servers = array(array('server' => '127.0.0.1', 'port' => '6379', 'ttl' => 0.5));
-                }
-
-                    $serverArray = array();
-                    foreach ($servers as $server) {
-                        $serverString = $server['server'];
-                        if (isset($server['port'])) {
-                            $serverString .= ':' . $server['port'];
-                        }
-
-                        $serverArray[] = $serverString;
-                    }
-                    $redis = new \RedisArray($serverArray, [], $rOptions);
-                }
-
-            $handler = new RedisSessionHandler($redis);
+            $handler = new RedisSessionHandler($redis, $config);
         } else {
             $savePath = $config->get('concrete.session.save_path') ?: null;
             $handler = new NativeFileSessionHandler($savePath);

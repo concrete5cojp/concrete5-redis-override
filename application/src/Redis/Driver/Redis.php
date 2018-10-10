@@ -1,12 +1,14 @@
 <?php
 
 /*
- * This file is part of the Stash package.
+ * Modified for prefix By Derek Cameron <info@derekcameron.com>
+ * This file is Originally part of the Stash package.
  *
  * (c) Robert Hafner <tedivm@tedivm.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ * Can be found in vendor/tedivm/stash
  */
 
 namespace Application\Redis\Driver;
@@ -71,7 +73,7 @@ class Redis extends AbstractDriver
 
             $servers = array();
             foreach ($unprocessedServers as $server) {
-                $ttl = '.1';
+                $ttl = '0.5'; // Connection time to server in seconds not for storage
                 if (isset($server['ttl'])) {
                     $ttl = $server['ttl'];
                 } elseif (isset($server[2])) {
@@ -122,7 +124,7 @@ class Redis extends AbstractDriver
             if (isset($options['password'])) {
                 $redis->auth($options['password']);
             }
-            if (!empty($options['prefix'])) $redis->_prefix($options['prefix']. ":");
+            if (!empty($options['prefix'])) $redis->_prefix($options['prefix'] .":");
             $this->redis = $redis;
         } else {
             $redisArrayOptions = array();
@@ -131,7 +133,7 @@ class Redis extends AbstractDriver
                     $redisArrayOptions[$optionName] = $options[$optionName];
                 }
             }
-            if (!empty($options['prefix'])) $redisArrayOptions[\Redis::OPT_PREFIX] = $options['prefix'] . ":";
+            if (!empty($options['prefix'])) $redisArrayOptions[\Redis::OPT_PREFIX] = $options['prefix'] .":";
 
 
             $serverArray = array();
@@ -212,7 +214,7 @@ class Redis extends AbstractDriver
                 $keys = $this->redis->getKeys($this->prefix .':*');
                 $this->redis->del($keys);
             } else {
-                $this->redis->flushDB();
+                $this->redis->flushAll();
             }
 
 
