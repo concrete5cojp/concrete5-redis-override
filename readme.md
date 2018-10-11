@@ -85,9 +85,9 @@ concrete5 の特性からパッケージ化は難しく、application のオー�
 
 1. この Git から全てのファイルをダウンロード
 1. `application/config/concrete.php` を開く
-1. `<redis_server>` と書かれているところを実際の Redis エンドポイント変更
+1. `<redis_server>` と書かれているところを実際の Redis エンドポイントに変更
 1. ファイルを concrete5 アップロード
-1. concrete5 のキャッシュをクリアすると Redis を利用し始めます。
+1. Redis が使われ始めます。場合によっては concrete5 のキャッシュをクリアが必要です。
 
 
 ## ファイル一覧
