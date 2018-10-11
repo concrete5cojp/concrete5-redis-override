@@ -10,6 +10,12 @@ This is the sample override of Redis cache for concrete5.
 
 Due to the nature of concrete5 structure, you must override application. Packaging is impossible as of concrete5 8.4.3.
 
+These Redis implementation may be included into concrete5 in the future. We're currently discussing with concrete5 Core team.
+
+## Agreement
+
+By downloading the code, you agree to use this code "AS-IS". concrete5 Japan, Inc. hold no responsibility whatsoever for any damages and payment caused by using this Redis overrides.
+
 ## Set-up Redis
 
 Please set-up your Redis instances on AWS or other server.
@@ -60,6 +66,13 @@ You will just need to upload these files onto the proper location.
 
 concrete5 の特性からパッケージ化は難しく、application のオーバーライドのみ可能となります。
 
+このオーバーライドは、将来 concrete5 本体に取り込まれる可能性があります。
+
+## 免責
+
+このオーバーライドを使って発生したいかなる損害について、コンクリートファイブジャパン株式会社は補償いたしません。
+
+このコードをダウンロードされた方はこのコードが無保証であると同意していただいたとみなします。
 
 ## Redis のセットアップ
 
