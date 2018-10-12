@@ -12,7 +12,8 @@ $redisDriver = [
                     'ttl' => 30 //Connection Timeout - not TTL for objects
                 ],
             ],
-            'prefix'=>'c5_cache'
+            'prefix'=>'c5_cache',
+            'database'=>0 // Use different Redis Databases - optional
         ],
     ],
 ];
@@ -31,7 +32,8 @@ if (Redis::isAvailable()) {
                         'ttl' => 30 //Connection Timeout - not TTL for objects
                     ],
                 ],
-                'prefix'=>'c5_cache'
+                'prefix'=>'c5_cache',
+                'database'=>1 // Use different Redis Databases - optional
             ],
         ],
         'levels' => [
@@ -57,6 +59,7 @@ if (Redis::isAvailable()) {
                 ],
             ],
             'prefix' => 'c5_session',
+            'database'=>2 // Use different Redis Databases - optional
         ],
     ];
 }

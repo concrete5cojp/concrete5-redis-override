@@ -1,6 +1,6 @@
 # concrete5 Redis Override Sample
 
-(October 11, 2018)
+(October 12, 2018)
 
 日本語はこの後に / Japanese instruction followed by English
 
@@ -42,6 +42,13 @@ There are 7 files that you need modify and upload.
 Make sure not to override your own setting and add the following settings. Make sure to replace `<redis_server>` to your actual redis server.
 
 - application/config/concrete.php
+
+#### Optional Concrete.php Settings
+
+- 'prefix'
+    - You can set a key prefix here for each cache/session level (not_required)
+- 'database' - (INTEGER)
+    - Select which redis database you want to use, useful for keeping the cache's/session seperatly if you do not use a prefix.
 
 ### FIle may need to modify and replace
 

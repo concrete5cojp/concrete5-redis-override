@@ -155,6 +155,10 @@ class SessionFactory implements SessionFactoryInterface
                     $redis = new \RedisArray($serverArray, []);
                 }
 
+                if (!empty($options['database'])) {
+                    $redis->select((int) $options['database']);
+                }
+
                 if (!empty($options['prefix'])) {
                     $options = ['prefix'=>$options['prefix']];
                 } else {
