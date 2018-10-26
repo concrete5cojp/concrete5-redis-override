@@ -124,8 +124,8 @@ class Redis extends AbstractDriver
             if (isset($options['password'])) {
                 $redis->auth($options['password']);
             }
-            if (!empty($options['prefix'])) $redis->_prefix($options['prefix'] .":");
-            $this->redis = $redis;
+
+
         } else {
             $redisArrayOptions = array();
             foreach ($this->redisArrayOptionNames as $optionName) {
@@ -133,7 +133,6 @@ class Redis extends AbstractDriver
                     $redisArrayOptions[$optionName] = $options[$optionName];
                 }
             }
-            if (!empty($options['prefix'])) $redisArrayOptions[\Redis::OPT_PREFIX] = $options['prefix'] .":";
 
 
             $serverArray = array();
@@ -153,6 +152,7 @@ class Redis extends AbstractDriver
         if (isset($options['database'])) {
             $redis->select($options['database']);
         }
+        if (!empty($options['prefix'])) $redis->setOption(\Redis::OPT_PREFIX,$options['prefix'] .":");
 
         $this->redis = $redis;
     }
@@ -211,10 +211,13 @@ class Redis extends AbstractDriver
         if (is_null($key)) {
 
             if (!empty($this->prefix)) {
-                $keys = $this->redis->getKeys($this->prefix .':*');
+                //This attaches the prefix anyway
+                $keys = $this->redis->getKeys('*');
+                $this->redis->setOption(\Redis::OPT_PREFIX, null);
                 $this->redis->del($keys);
+                $this->redis->setOption(\Redis::OPT_PREFIX,$this->prefix .":");
             } else {
-                $this->redis->flushAll();
+                $this->redis->flushDB();
             }
 
 
