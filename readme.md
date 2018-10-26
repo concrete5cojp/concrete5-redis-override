@@ -6,7 +6,7 @@
 
 ## Introduction
 
-This is the sample override of Redis cache for concrete5.
+This is the sample override of Redis cache for concrete5. This version only works and tested with PHP version 7.x.
 
 Due to the nature of concrete5 structure, you must override application. Packaging is impossible as of concrete5 8.4.3.
 
@@ -62,7 +62,7 @@ You will just need to upload these files onto the proper location.
 
 ## はじめに
 
-これは concrete5 で Redis を使うためのサンプルオーバーライドです。
+これは concrete5 で Redis を使うためのサンプルオーバーライドです。PHP 7.x での動作確認をしています。
 
 concrete5 の特性からパッケージ化は難しく、application のオーバーライドのみ可能となります。
 
