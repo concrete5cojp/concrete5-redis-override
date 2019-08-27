@@ -1,6 +1,6 @@
 # concrete5 Redis Override Sample
 
-(October 12, 2018)
+(August 27, 2019)
 
 日本語はこの後に / Japanese instruction followed by English
 
@@ -10,7 +10,7 @@ This is the sample override of Redis cache for concrete5. This version only work
 
 Due to the nature of concrete5 structure, you must override application. Packaging is impossible as of concrete5 8.4.3.
 
-These Redis implementation may be included into concrete5 in the future. We're currently discussing with concrete5 Core team.
+These Redis implementation has been merged onto concrete5 core since 8.5.0. You no longer need this implementation if you are using concrete5 8.5.0 and newer. If you've implemented this in earlier version of concrete5, you should remove your own override and use the core implementation when upgrading your site.
 
 ## Agreement
 
@@ -73,7 +73,7 @@ You will just need to upload these files onto the proper location.
 
 concrete5 の特性からパッケージ化は難しく、application のオーバーライドのみ可能となります。
 
-このオーバーライドは、将来 concrete5 本体に取り込まれる可能性があります。
+このオーバーライドは、concrete5 8.5.0 からコアにマージされました。8.5.0 以降ではこのオーバーライドは不要です。すでにこのオーバーライドを使用していているサイトを 8.5.0 以降にアップグレードする場合は、オーバーライドを削除してコアのものを利用して下さい。
 
 ## 免責
 
